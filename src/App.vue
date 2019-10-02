@@ -19,7 +19,7 @@ export default {
 $bg-main: #F7F7FA;
 $dark-blue: #465069;
 
-#app {
+body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background: $bg-main;
 }

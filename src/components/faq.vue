@@ -5,10 +5,10 @@
 		</div>
 		<div class="faq__container">
 			<div class="faq__qa">
-				<faqSections :categories="info.data.categories"/>
+				<faqSections v-if="dataReady" :categories="info.data.categories"/>
 			</div>
 			<div class="faq__menu">
-				<faqMenu :categories="info.data.categories"/>
+				<faqMenu v-if="dataReady" :categories="info.data.categories"/>
 			</div>
 		</div>
 	</div>
@@ -27,13 +27,17 @@ export default {
 	},
 	data() {
 		return {
-			info: null
+			info: null,
+			dataReady: false
 		};
 	},
 	mounted() {
 		axios
-			.get('https://gist.githubusercontent.com/barbudour/c17017f956dabf50fdbe6df6a7ad1f62/raw/a651a5bcf16954bbfc55caf393aedfe83d9f8987/faq.json')
-			.then(response => (this.info = response));
+			.get('https://gist.githubusercontent.com/barbudour/c17017f956dabf50fdbe6df6a7ad1f62/raw/3fedb87872401f9faa1e381c98975dd5548264e5/faq.json')
+			.then(response => {
+				this.info = response; 
+				this.dataReady = true;
+			});
 	}
 }
 </script>

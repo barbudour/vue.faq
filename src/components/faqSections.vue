@@ -1,17 +1,20 @@
 <template>
 	<div class="sections">
-		<div class="section" v-for="(category, index) in categories" :key="index" :id="'category_'+category.id">
+		<div class="section" v-for="(category, index) in categories" v-bind:key="index" v-bind:id="'category_'+category.id" v-show="category.items.length">
       <div class="section__title">
         <h2>
           {{ category.name }}
         </h2>
       </div>
       <div class="section__items">
-        <div class="section__qa" v-for="(item, index) in category.items" :key="index" :id="'qa_'+item.id">
-          <div class="section__q" v-on:click="accordion">
+        <div class="section__qa" @click.self="accordion($event)" v-for="(item, index) in category.items" :key="index" :id="'qa_'+item.id">
+          <div class="section__q">
             <h4>
               {{ item.question }}
             </h4>
+            <div class="section__qa-arrow">
+              <img src="../assets/chevron-down.svg" alt="">
+            </div>
           </div>
           <div class="section__a">
             <p>
@@ -29,16 +32,23 @@
 export default {
   name: 'faqSection',
   props: {
-    categories: null
+    categories: {}
   },
   methods: {
     accordion: function (event) {
       var matches = document.querySelectorAll('.section__qa');
       for(var i = 0; i < matches.length; i++) {
-          matches[i].classList.remove('active');
+        matches[i].classList.remove('active');
+        matches[i].childNodes.item(1).style.height = '0px';
       }
-
-      event.target.parentNode.parentNode.classList.toggle('active');
+      event.target.classList.toggle('active');
+      event.target.childNodes.item(1).style.height = event.target.childNodes.item(1).scrollHeight + 'px';
+    }
+  },
+  filters: {
+    checkQA: function (value) {
+      if (!value) return ''
+      return value
     }
   }
 }
@@ -50,6 +60,8 @@ $white: #ffffff;
 
 .sections {
   & .section {
+    margin-bottom: 35px;
+    
     & .section__items {
       & .section__qa {
         background: $white;
@@ -57,29 +69,65 @@ $white: #ffffff;
         padding: 15px 25px;
         box-shadow: 0px 1px 12px rgba(51, 51, 51, 0.08);
         cursor: pointer;
+        transition: all 0.3s ease-in-out;
 
-        &:not(last-child) {
+        &:not(:last-child) {
           margin-bottom: 15px;
         }
       }
     }
 
+    &__title {
+      margin-bottom: 15px;
+      > h2 {
+        margin: 0;
+      }
+    }
+
+    &__qa {
+      position: relative;
+      &-arrow {
+        position: absolute;
+        top: 16px;
+        right: 25px;
+
+        > img {
+          transform: rotate(-180deg);
+          transition: all 0.3s ease;
+          transform-origin: 50% 50%;
+        }
+      }
+
+      &.active {
+        .section__a {
+          opacity: 1;
+        }
+
+        .section__qa-arrow {
+          > img {
+            transform: rotate(0deg);
+          }
+        }
+      }
+    }
+
     &__q {
+      pointer-events: none;
       > h4 {
         margin: 0;
       }
     }
 
     &__a {
-      display: none;
+      pointer-events: none;
+      transition: all 0.3s ease-in-out;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
       > p {
         margin: 11px 0 0;
       }
     }
   }
-}
-
-.section__q.active + .section__a {
-  display: block;
 }
 </style>

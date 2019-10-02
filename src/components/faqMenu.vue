@@ -1,11 +1,12 @@
 <template>
 	<div class="menu">
 		<div class="menu__title">
+			<img src="../assets/list-ul.svg" alt="">
 			<h3>Категории</h3>
 		</div>
 		<div class="menu__content">
 			<ul class="menu__links">
-				<li class="menu__link" v-for="(category, index) in categories" :key="index">
+				<li class="menu__link" v-for="(category, index) in categories" :key="index" v-show="category.items.length">
 					<a :href="'#category_'+category.id">
 						{{ category.name }}
 					</a>
@@ -17,10 +18,10 @@
 
 <script>
 export default {
-  name: 'faqMenu',
-  props: {
-    categories: null
-  }
+	name: 'faqMenu',
+	props: {
+		categories: {}
+	}
 }
 </script>
 
@@ -31,6 +32,8 @@ $light-gray: #EFEFF4;
 $dark-blue: #465069;
 
 .menu {
+	position: sticky;
+	top: 20px;
 	background: $white;
 	border-radius: 3px;
 	box-shadow: 0px 1px 12px rgba(51, 51, 51, 0.08);
@@ -40,7 +43,12 @@ $dark-blue: #465069;
 		border-bottom: 1px solid $light-gray;
 
 		> h3 {
-			margin: 0;
+			margin: 0 0 0 10px;
+			display: inline;
+		}
+
+		> img {
+			display: inline;
 		}
 	}
 
@@ -55,12 +63,15 @@ $dark-blue: #465069;
 	}
 
 	&__link {
-		font-size: 17px;
-		line-height: 20px;
-		text-decoration: underline;
-		color: $dark-blue;
+		> a {
+			font-size: 17px;
+			line-height: 20px;
+			text-decoration: none;
+			color: $dark-blue;
+			border-bottom: 1px solid $dark-blue;
+		}
 
-		&:not(last-child) {
+		&:not(:last-child) {
 			margin-bottom: 13px;
 		}
 	}
