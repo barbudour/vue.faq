@@ -7,7 +7,7 @@
 		<div class="menu__content">
 			<ul class="menu__links">
 				<li class="menu__link" v-for="(category, index) in categories" :key="index" v-show="category.items.length">
-					<a :href="'#category_'+category.id">
+					<a :data_to="'#category_'+category.id" @click="scroll">
 						{{ category.name }}
 					</a>
 				</li>
@@ -21,6 +21,12 @@ export default {
 	name: 'faqMenu',
 	props: {
 		categories: {}
+	},
+	methods: {
+		scroll: function (event) {
+			const url = event.currentTarget.getAttribute('data_to');
+			document.querySelector(url).scrollIntoView({block: "start", behavior: "smooth"});
+		}
 	}
 }
 </script>
@@ -69,6 +75,7 @@ $dark-blue: #465069;
 			text-decoration: none;
 			color: $dark-blue;
 			border-bottom: 1px solid $dark-blue;
+			cursor: pointer;
 		}
 
 		&:not(:last-child) {

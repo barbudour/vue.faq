@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="section__items">
-        <div class="section__qa" @click.self="accordion($event)" v-for="(item, index) in category.items" :key="index" :id="'qa_'+item.id">
+        <div class="section__qa" @click="accordion" v-for="(item, index) in category.items" :key="index" :id="'qa_'+item.id">
           <div class="section__q">
             <h4>
               {{ item.question }}
@@ -36,19 +36,20 @@ export default {
   },
   methods: {
     accordion: function (event) {
-      var matches = document.querySelectorAll('.section__qa');
-      for(var i = 0; i < matches.length; i++) {
-        matches[i].classList.remove('active');
-        matches[i].childNodes.item(1).style.height = '0px';
+      
+      var active = event.target.classList.contains('active');
+      if (active) {
+        event.target.classList.remove('active');
+        event.target.childNodes.item(1).style.height = '0px';
+      } else {
+        var matches = document.querySelectorAll('.section__qa');
+        for(var i = 0; i < matches.length; i++) {
+          matches[i].classList.remove('active');
+          matches[i].childNodes.item(1).style.height = '0px';
+        }
+        event.target.classList.toggle('active');
+        event.target.childNodes.item(1).style.height = event.target.childNodes.item(1).scrollHeight + 'px';
       }
-      event.target.classList.toggle('active');
-      event.target.childNodes.item(1).style.height = event.target.childNodes.item(1).scrollHeight + 'px';
-    }
-  },
-  filters: {
-    checkQA: function (value) {
-      if (!value) return ''
-      return value
     }
   }
 }
