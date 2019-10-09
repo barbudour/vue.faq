@@ -1,16 +1,13 @@
 <template>
   <div id="app">
-    <faq/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import faq from './components/faq.vue'
-
 export default {
   name: 'app',
   components: {
-    faq
   }
 }
 </script>
@@ -46,5 +43,27 @@ p {
   font-size: 14px;
   line-height: 150%;
 	color: $dark-blue;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.section {
+  margin: 40px 0;
+  padding: 40px 0;
+
+  &--white {
+    background: #ffffff;
+  }
+
+  h1:first-child {
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
 }
 </style>

@@ -13,7 +13,7 @@
               {{ item.question }}
             </h4>
             <div class="section__qa-arrow">
-              <img src="../assets/chevron-down.svg" alt="">
+              <img src="../assets/img/chevron-down.svg" alt="">
             </div>
           </div>
           <div class="section__a">
